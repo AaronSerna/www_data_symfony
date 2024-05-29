@@ -3,6 +3,32 @@
 {% block title %}Log in!
 {% endblock %}
 
+
+{% block javascripts %}
+
+
+	<script>
+			document.addEventListener("DOMContentLoaded", function () {
+
+			let iconoOjo = document.getElementById('eye-icon');
+			let inputPassword = document.getElementById('password');
+
+			iconoOjo.addEventListener('click', function () {
+
+			if (inputPassword.type === 'password') {
+
+			inputPassword.type = 'text';
+			} else {
+			inputPassword.type = 'password';
+				}
+			});
+			});
+	</script>
+
+
+{% endblock %}
+
+
 {% block body %}
 	<style>
 
@@ -53,14 +79,6 @@
 					<a href="/reset-password" class="">He olvidado la contraseña</a>
 
 					<br>
-
-
-					<div class="checkbox mt-3">
-						<label>
-							<input type="checkbox" name="_remember_me">
-							Recordarme
-						</label>
-					</div>
 
 
 					{# If you want to control the URL the user is redirected to on success #}

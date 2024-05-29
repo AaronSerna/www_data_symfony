@@ -1,22 +1,50 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Reset your password{% endblock %}
+{% block title %}Reset your password
+{% endblock %}
 
 {% block body %}
-    {% for flash_error in app.flashes('reset_password_error') %}
-        <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
-    {% endfor %}
-    <h1>Reset your password</h1>
 
-    {{ form_start(requestForm) }}
-        {{ form_row(requestForm.email) }}
-        <div>
-            <small>
-                Enter your email address, and we will send you a
-                link to reset your password.
-            </small>
-        </div>
+	<style>
 
-        <button class="btn btn-primary">Send password reset email</button>
-    {{ form_end(requestForm) }}
+		body {
+			background-color: white;
+		}
+
+        .col-md-12  {
+			border-radius: 6px;
+			border: 1px solid black;
+			box-shadow: -0.088px 2.398px 8.288px 0 rgba(0, 0, 0, 0.04), -0.439px 11.992px 51px 0 rgba(0, 0, 0, 0.07);
+			background-color: white;
+		}
+	</style>
+
+
+	{% for flash_error in app.flashes('reset_password_error') %}
+		<div class="alert alert-danger" role="alert">{{ flash_error }}</div>
+	{% endfor %}
+
+
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-md-12 justify-content-center text-center">
+
+
+				<h1>Restaurar contraseña</h1>
+
+				{{ form_start(requestForm) }}
+				{{ form_row(requestForm.email) }}
+				<div>
+					<small>
+					Introduce un email para recibir con el enlace de recuperación de contraseña.
+					</small>
+				</div>
+
+				<button class="btn btn-primary mt-3">Recuperar contraseña</button>
+				{{ form_end(requestForm) }}
+
+			</div>
+		</div>
+	</div>
+
 {% endblock %}
