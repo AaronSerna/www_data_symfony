@@ -1,0 +1,167 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+	<style>
+
+		body {
+			background-color: white;
+		}
+
+		.salir {
+			margin-top: 570px;
+		}
+		a {
+			text-decoration: none;
+		}
+
+		.col-md-1 {
+
+		}
+	</style>
+
+	<div class="container-fluid">
+
+
+		<div class="row">
+
+			<div
+				class="col-md-1 d-flex flex-column border-end">
+
+				<!-- La idea de pasar el id por la URL no es la más adecuada, ya que simplemente cambiando el número cualquiera podría editar la info de otro usuario -->
+
+				<div class="icono mb-3 mt-3">
+					<a href="{{ path('app_inicio') }}" class="">
+						<img src="{{ asset('images/logo_samoo_vaca.png') }}" alt="" class="img-fluid mx-3" style="width: 60%">
+					</a>
+
+				</div>
+
+				{% if is_granted('ROLE_SUPER_ADMIN') %}
+
+					<div class="text-center mt-3">
+						<a href="" class="">
+							<i class="bi bi-person-circle"></i>
+							<p>Gestionar usuarios</p>
+						</a>
+					</div>
+				{% endif %}
+
+
+				<div class="text-center mt-2">
+					<a href="" class="">
+
+						<i class="bi bi-gear"></i>
+						<p>Editar perfil</p>
+					</a>
+				</div>
+
+				<div class="salir text-center">
+					<a href="{{ path('app_logout') }}" class="btn btn-danger text-light mt-1">
+
+						<i class="bi bi-box-arrow-left"></i>
+						<span class="mx-2">Salir</span>
+					</a>
+				</div>
+			</div>
+
+
+			{% if is_granted('ROLE_SUPER_ADMIN') %}
+
+				<div class="col-md-11">
+
+
+					<div class="row text-center">
+						<h1>ADMIN</h1>
+					</div>
+
+					<div class="row text-center justify-content-center">
+
+
+						<div class="card text-bg-primary mb-3" style="max-width: 18rem;">
+							<div class="card-header">Header</div>
+							<div class="card-body">
+								<h5 class="card-title">Primary card title</h5>
+								<p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+							</div>
+						</div>
+						<div class="card text-bg-secondary mb-3 mx-2" style="max-width: 18rem;">
+							<div class="card-header">Header</div>
+							<div class="card-body">
+								<h5 class="card-title">Secondary card title</h5>
+								<p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+							</div>
+						</div>
+						<div class="card text-bg-success mb-3" style="max-width: 18rem;">
+							<div class="card-header">Header</div>
+							<div class="card-body">
+								<h5 class="card-title">Success card title</h5>
+								<p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+							</div>
+						</div>
+					</div>
+				{% endif %}
+
+				{% if is_granted('ROLE_MANAGER') or is_granted('ROLE_SUPER_ADMIN') %}
+
+
+					<div class="row text-center">
+						<h1>GESTOR</h1>
+					</div>
+
+					<div class="row text-center justify-content-center">
+
+						<div class="card text-bg-danger mb-3" style="max-width: 18rem;">
+							<div class="card-header">Header</div>
+							<div class="card-body">
+								<h5 class="card-title">Danger card title</h5>
+								<p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+							</div>
+						</div>
+						<div class="card text-bg-warning mb-3 mx-2" style="max-width: 18rem;">
+							<div class="card-header">Header</div>
+							<div class="card-body">
+								<h5 class="card-title">Warning card title</h5>
+								<p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+							</div>
+						</div>
+						<div class="card text-bg-info mb-3" style="max-width: 18rem;">
+							<div class="card-header">Header</div>
+							<div class="card-body">
+								<h5 class="card-title">Info card title</h5>
+								<p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+							</div>
+						</div>
+					</div>
+
+				{% endif %}
+
+				{% if is_granted('ROLE_USER') or is_granted('ROLE_ADMIN')  %}
+
+					<div class="row text-center">
+						<h1>INVITADO</h1>
+					</div>
+
+					<div class="row text-center justify-content-center">
+
+
+						<div class="card text-bg-light mb-3" style="max-width: 18rem;">
+							<div class="card-header">Header</div>
+							<div class="card-body">
+								<h5 class="card-title">Light card title</h5>
+								<p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+							</div>
+						</div>
+						<div class="card text-bg-dark mb-3 mx-2" style="max-width: 18rem;">
+							<div class="card-header">Header</div>
+							<div class="card-body">
+								<h5 class="card-title">Dark card title</h5>
+								<p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+							</div>
+						</div>
+					</div>
+				{% endif %}
+
+			</div>
+
+		</div>
+	{% endblock %}
