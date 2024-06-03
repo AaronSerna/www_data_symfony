@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Security;
+namespace App\TwoFactor;
 
 use Scheb\TwoFactorBundle\Security\Http\Authentication\AuthenticationRequiredHandlerInterface;
 use Symfony\Component\HttpFoundation\Request;

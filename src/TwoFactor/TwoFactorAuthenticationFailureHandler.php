@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Security;
+namespace App\TwoFactor;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;

@@ -2,8 +2,24 @@
 {% block body %}
 
 	<style>
+
 		body {
 			background-color: white;
+		}
+
+		a {
+			text-decoration: none;
+		}
+
+
+		.bi-person-gear {
+			font-size: 38px;
+		}
+
+		.bi-person-circle,
+		.bi-gear,
+		.bi-box-arrow-left {
+			font-size: 30px;
 		}
 	</style>
 
@@ -20,28 +36,41 @@
 		{% if is_granted('ROLE_SUPER_ADMIN') %}
 
 			<div class="text-center mt-3">
-				<a href="" class="">
-					<i class="bi bi-person-circle"></i>
+				<a href="{{ path('app_profile_index') }}" class="">
+					<i class="bi bi-person-gear"></i>
 					<p>Gestionar usuarios</p>
 				</a>
 			</div>
 		{% endif %}
 
 
-		<div class="text-center mt-2">
-			<a href="" class="">
+		{% if is_granted('ROLE_USER') %}
 
-				<i class="bi bi-gear"></i>
-				<p>Editar perfil</p>
-			</a>
-		</div>
+			<div class="text-center mt-3">
+				<a href="/profile/{{user.id}}" class="">
+					<i class="bi bi-gear"></i>
+					<p>Mis datos</p>
+				</a>
+			</div>
+		{% endif %}
 
-		<div class="salir text-center">
-			<a href="{{ path('app_logout') }}" class="btn btn-danger text-light mt-1">
 
-				<i class="bi bi-box-arrow-left"></i>
-				<span class="mx-2">Salir</span>
-			</a>
+		<div class="d-flex flex-column">
+
+			<div class="iconoUsuario text-center">
+
+				<i class="bi bi-person-circle"></i>
+				<h6>{{user.name}}</h6>
+				<h6 style="margin-top: -5px;">{{user.surname}}</h6>
+			</div>
+
+
+			<div class="salir text-center border btn">
+				<a href="{{ path('app_logout') }}" class="text-danger">
+					<i class="bi bi-box-arrow-left"></i>
+					<h6 class="">Salir</h6>
+				</a>
+			</div>
 		</div>
 	</div>
 {% endblock %}

@@ -21,15 +21,20 @@ security:
         check_path: app_login
         enable_csrf: true
 
-      # two_factor:  NO FUNCIONA CORRECTAMENTE!
-      #   auth_form_path: 2fa_login # The route name you have used in the routes.yaml
-      #   check_path: 2fa_login_check # The route name you have used in the routes.yaml
-      #   prepare_on_login: true
-      #   prepare_on_access_denied: true
-      #   success_handler: 'App\Security\TwoFactorAuthenticationSuccessHandler'
-      #   failure_handler: 'App\Security\TwoFactorAuthenticationFailureHandler'
-      #   authentication_required_handler: 'App\TwoFactor\TwoFactorAuthenticationRequiredHandler'
-      #   auth_code_parameter_name: auth_code
+     # two_factor:
+     #   auth_form_path: 2fa_login # The route name you have used in the routes.yaml
+     #   check_path: 2fa_login_check # The route name you have used in the routes.yaml
+     #   prepare_on_login: true
+     #   prepare_on_access_denied: true
+     #   success_handler: 'App\TwoFactor\TwoFactorAuthenticationSuccessHandler'
+     #   failure_handler: 'App\TwoFactor\TwoFactorAuthenticationFailureHandler'
+      #  authentication_required_handler: 'App\TwoFactor\TwoFactorAuthenticationRequiredHandler'
+     #   auth_code_parameter_name: _auth_code
+
+      ## API:
+      json_login:
+      #  check_path: /login
+        success_handler: 'App\TwoFactor\AuthenticationSuccessHandler' # This file manages 2fa.
 
       logout:
         path: app_logout
@@ -45,8 +50,11 @@ security:
   # Easy way to control access for large sections of your site
   # Note: Only the *first* access control that matches will be used
   access_control:
-    - { path: ^/api, roles: ROLE_SUPER_ADMIN }
+    - { path: /login, roles: PUBLIC_ACCESS }
     - { path: ^/2fa, role: IS_AUTHENTICATED_2FA_IN_PROGRESS }
+    - { path: /inicio, roles: IS_AUTHENTICATED_FULLY }
+    - { path: ^/api, roles: ROLE_SUPER_ADMIN }
+    - { path: /logout, roles: PUBLIC_ACCESS }
 
 when@test:
   security:

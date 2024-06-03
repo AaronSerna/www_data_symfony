@@ -1,0 +1,122 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}User
+{% endblock %}
+
+{% block body %}
+
+	<style>
+
+		tr {
+			text-align: center;
+			align-items: center;
+		}
+
+		.table .bi {
+			font-size: 20px;
+			color: black;
+		}
+
+		.bi-person-fill-add {
+			font-size: 20px;
+			color: white;
+		}
+
+	</style>
+
+
+	<div class="container-fluid">
+
+		<div class="row">
+
+			{{ include('sidebar.html.twig') }}
+
+
+			<div class="col-md-11">
+
+				<div class="text-start mt-1">
+					<a href="{{ path('app_inicio') }}" class="btn btn-secondary text-light border border-dark mt-1">
+
+						<i class="bi bi-arrow-return-left"></i>
+						Retroceder</a>
+				</div>
+
+
+				<div class="row text-center">
+					<h1>Información del usuario</h1>
+				</div>
+
+
+				<table class="table table-bordered table-striped w-100 mt-3">
+
+					<tbody>
+
+						{% if is_granted('ROLE_SUPER_ADMIN') %}
+							<tr>
+								<th>Id</th>
+								<td>{{ user.id }}</td>
+							</tr>
+						{% endif %}
+
+						<tr>
+							<th>Email</th>
+							<td>{{ user.email }}</td>
+						</tr>
+
+						{% if is_granted('ROLE_SUPER_ADMIN') %}
+
+							<tr>
+								<th>Roles</th>
+								<td>{{ user.roles ? user.roles|json_encode : '' }}</td>
+							</tr>
+						{% endif %}
+
+						<tr>
+							<th>Name</th>
+							<td>{{ user.name }}</td>
+						</tr>
+						<tr>
+							<th>Surname</th>
+							<td>{{ user.surname }}</td>
+						</tr>
+						<tr>
+
+							{% if is_granted('ROLE_SUPER_ADMIN') %}
+
+								<th>Access_date</th>
+								<td>{{ user.accessDate ? user.accessDate|date('Y-m-d') : '' }}</td>
+							</tr>
+						</tr>
+						<tr>
+							<th>Two_factor_activated</th>
+							<td>{{ user.twoFactorActivated ? 'Yes' : 'No' }}</td>
+						</tr>
+
+						<tr>
+							<th>IsVerified</th>
+							<td>{{ user.isVerified ? 'Yes' : 'No' }}</td>
+						</tr>
+
+					{% endif %}
+
+					{% if is_granted('ROLE_SUPER_ADMIN') %}
+
+						<tr>
+							<th>Acciones</th>
+
+							<td class="d-flex justify-content-center">
+
+								<a href="{{ path('app_profile_edit', {'id': user.id}) }}" class="btn btn-primary mx-4">Editar</a>
+
+								{{ include('profile/_delete_form.html.twig') }}
+
+							</td>
+						</tr>
+					{% endif %}
+
+
+				</tbody>
+			</table>
+		</div>
+
+	{% endblock %}

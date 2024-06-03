@@ -1,8 +1,7 @@
 <?php
 
-namespace App\Security;
+namespace App\TwoFactor;
 
-use Scheb\TwoFactorBundle\Security\Authentication\Token\TwoFactorTokenInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Http\Authentication\AuthenticationSuccessHandlerInterface;
@@ -12,12 +11,8 @@ class TwoFactorAuthenticationSuccessHandler implements AuthenticationSuccessHand
 {
     public function onAuthenticationSuccess(Request $request, TokenInterface $token): Response
     {
-        if ($token instanceof TwoFactorTokenInterface) {
-            // Return the response to tell the client two-factor authentication is required.
-            return new Response('{"login": "success", "two_factor_complete": false}');
-        }
-
-        // Otherwise return the default response for successful login. You could do this by decorating
-        // the original authentication success handler and calling it here.
-    }
+        // Return the response to tell the client that authentication including two-factor
+        // authentication is complete now.
+        return new Response('{"login": "success", "two_factor_complete": true}');
+   }
 }

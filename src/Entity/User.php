@@ -45,6 +45,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, TwoFact
     #[ORM\Column]
     private ?bool $two_factor_activated = null;
 
+
+    #[ORM\Column]
+    private bool $isVerified = false;
+
+
     public function getId(): ?int
     {
         return $this->id;
@@ -167,6 +172,19 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, TwoFact
 
         return $this;
     }
+
+    public function isVerified(): bool
+    {
+        return $this->isVerified;
+    }
+
+    public function setVerified(bool $isVerified): static
+    {
+        $this->isVerified = $isVerified;
+
+        return $this;
+    }
+
 
 
 

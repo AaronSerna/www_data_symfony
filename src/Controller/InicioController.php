@@ -12,15 +12,18 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 class InicioController extends AbstractController
 {
     #[Route('/inicio', name: 'app_inicio')]
-    public function index(): Response
+    public function index(User $user): Response
     {
+
+        $user = $this->getUser();
+
+        if (!$user) {
+            return $this->redirectToRoute('/');
+        }
+
         return $this->render('inicio/index.html.twig', [
+            'user' => $user,
             'controller_name' => 'InicioController',
         ]);
     }
-
-
-
-
-
 }
