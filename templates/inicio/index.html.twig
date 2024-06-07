@@ -6,7 +6,7 @@
 		body {
 			background-color: white;
 		}
-		
+
 	</style>
 
 	<div class="container-fluid">
@@ -15,7 +15,7 @@
 		<div class="row">
 			{{ include('sidebar.html.twig') }}
 
-			<div class="col-md-11">
+			<div class="col-lg-11 col-md-10">
 
 				<!-- If the logged user is SUPER_ADMIN, he will see this view: -->
 				{% if is_granted('ROLE_SUPER_ADMIN') %}

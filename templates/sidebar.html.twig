@@ -24,12 +24,12 @@
 	</style>
 
 
-	<div class="col-md-1 d-flex flex-column border-end">
+	<div class="col-lg-1 col-md-2 d-flex flex-column border-end">
 
 
-		<div class="icono mb-3 mt-3">
+		<div class="icono mb-3 mt-3 text-center">
 			<a href="{{ path('app_inicio') }}" class="">
-				<img src="{{ asset('images/logo_samoo_vaca.png') }}" alt="" class="img-fluid mx-3" style="width: 60%">
+				<img src="{{ asset('images/logo_samoo_vaca.png') }}" alt="" class="" style="width: 85px">
 			</a>
 		</div>
 
@@ -46,10 +46,10 @@
 
 		{% if is_granted('ROLE_USER') %}
 
-			<div class="text-center mt-3">
+			<div class="text-center mt-1">
 				<a href="/profile/{{user.id}}" class="">
 					<i class="bi bi-gear"></i>
-					<p>Mis datos</p>
+					<p>Ajustes de cuenta</p>
 				</a>
 			</div>
 		{% endif %}
@@ -65,8 +65,8 @@
 			</div>
 
 
-			<div class="salir text-center border btn">
-				<a href="{{ path('app_logout') }}" class="text-danger">
+			<div class="salir text-center">
+				<a href="{{ path('app_logout') }}" class="text-danger border btn w-75">
 					<i class="bi bi-box-arrow-left"></i>
 					<h6 class="">Salir</h6>
 				</a>

@@ -8,6 +8,7 @@ use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
+use Doctrine\ORM\Query\ResultSetMappingBuilder;
 
 /**
  * @extends ServiceEntityRepository<User>
@@ -57,4 +58,13 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
     //            ->getOneOrNullResult()
     //        ;
     //    }
+    public function countSuperAdmins() // This method will be used to obtain the number of SUPER_ADMINs that exists in the DB. After that, we'll ensure that a super admin cannot delete another super admin if the number of people with that role is less than 1.
+    {
+        return $this->createQueryBuilder('u')
+            ->select('COUNT(u.id)')
+            ->andWhere('u.roles LIKE :role')
+            ->setParameter('role', '%"ROLE_SUPER_ADMIN"%')
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
 }

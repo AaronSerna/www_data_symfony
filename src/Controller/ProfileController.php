@@ -15,6 +15,7 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 #[Route('/profile')]
 class ProfileController extends AbstractController
 {
+
     #[Route('/', name: 'app_profile_index', methods: ['GET'])]
     public function index(UserRepository $userRepository): Response
     {
@@ -24,7 +25,6 @@ class ProfileController extends AbstractController
         if (!$this->getUser()) {
             return $this->redirectToRoute('/');
         }
-
 
         return $this->render('profile/index.html.twig', [
             'users' => $userRepository->findAll(),
@@ -40,7 +40,9 @@ class ProfileController extends AbstractController
 
 
         $user = new User();
-        $form = $this->createForm(UserType::class, $user);
+        $form = $this->createForm(UserType::class, $user, [
+            'is_super_admin' => $this->isGranted('ROLE_SUPER_ADMIN'), // With this method we ensure us that the role checkboxes will only appear in the form when the user is a SUPER_ADMIN.
+        ]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -70,13 +72,15 @@ class ProfileController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_profile_show', methods: ['GET'])]
-    public function show(User $user): Response
+    public function show(User $user, UserRepository $userRepository): Response
     {
-
-        $this->denyAccessUnlessGranted('ROLE_USER'); //Only SUPER_ADMINs can show users.
+        // Before deleting a user, we must check if the clicked user is a SUPER_ADMIN to garantee the DB has at least one SUPER_ADMIN.
+        $superAdmins = $userRepository->countSuperAdmins();
 
         return $this->render('profile/show.html.twig', [
             'user' => $user,
+            'superAdmins' => $superAdmins
+
         ]);
     }
 
@@ -84,44 +88,50 @@ class ProfileController extends AbstractController
     public function edit(Request $request, User $user, EntityManagerInterface $entityManager, UserPasswordHasherInterface $userPasswordHasher): Response
     {
 
-        $user = $this->getUser();
+        // We store the logged user data.
+        $currentUser = $this->getUser();
 
-        if (!$user) {
-            return $this->redirectToRoute('/');
+        // We check if the current user is a super_admin.
+        if (!$this->isGranted('ROLE_SUPER_ADMIN')) {
+            // If he's not a super_admin, we verify if he's trying to edit his own profile.
+            if ($currentUser !== $user) {
+                // If he's trying to edit other person's profile and the logged user isn't a super_admin, we redirect him to 'show' view.
+                return $this->redirectToRoute('app_profile_show', ['id' => $currentUser->getId()]);
+            }
         }
 
-
-        $form = $this->createForm(UserType::class, $user);
+        $form = $this->createForm(UserType::class, $user, [
+            'is_super_admin' => $this->isGranted('ROLE_SUPER_ADMIN'),  // With this method we ensure us that the role checkboxes will only appear in the form when the user is a SUPER_ADMIN.
+        ]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            /*  $user->setPassword(
+            $user->setPassword(
                 $userPasswordHasher->hashPassword(
                     $user,
                     $form->get('password')->getData()
                 )
-            );*/
+            );
 
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_profile_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_profile_show', ['id' => $user->getId()], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('profile/edit.html.twig', [
-            'user' => $user,
-            'form' => $form,
+            'user' => $currentUser,
+            'form' => $form
         ]);
     }
 
     #[Route('/{id}', name: 'app_profile_delete', methods: ['POST'])]
-    public function delete(Request $request, User $user, EntityManagerInterface $entityManager): Response
+    public function delete(Request $request, User $user, EntityManagerInterface $entityManager, UserRepository $userRepository): Response
     {
-
         $this->denyAccessUnlessGranted('ROLE_SUPER_ADMIN'); //Only SUPER_ADMINs can delete users.
 
-
         if ($this->isCsrfTokenValid('delete' . $user->getId(), $request->getPayload()->get('_token'))) {
+
             $entityManager->remove($user);
             $entityManager->flush();
         }

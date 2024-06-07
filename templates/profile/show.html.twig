@@ -21,7 +21,6 @@
 			font-size: 20px;
 			color: white;
 		}
-
 	</style>
 
 
@@ -32,7 +31,7 @@
 			{{ include('sidebar.html.twig') }}
 
 
-			<div class="col-md-11">
+			<div class="col-lg-11 col-md-10">
 
 				<div class="text-start mt-1">
 					<a href="{{ path('app_inicio') }}" class="btn btn-secondary text-light border border-dark mt-1">
@@ -99,24 +98,34 @@
 
 					{% endif %}
 
-					{% if is_granted('ROLE_SUPER_ADMIN') %}
 
-						<tr>
-							<th>Acciones</th>
+					<tr>
+						<th>Acciones</th>
 
-							<td class="d-flex justify-content-center">
+						<td class="d-flex justify-content-center text-center">
 
-								<a href="{{ path('app_profile_edit', {'id': user.id}) }}" class="btn btn-primary mx-4">Editar</a>
+							<div>
+								<a href="{{ path('2fa_setup') }}" class="btn btn-primary">
+									<i class="bi bi-shield-lock text-light"></i>
+									Habilitar doble autentificación</a>
 
-								{{ include('profile/_delete_form.html.twig') }}
+								<a href="{{ path('app_profile_edit', {'id': user.id}) }}" class="btn btn-primary mx-2">
+									Editar datos</a>
+							</div>
 
+							{% if is_granted('ROLE_SUPER_ADMIN') %}
+
+								<div style="margin-top: 2.5px;">
+									{{ include('profile/_delete_form.html.twig') }}
+								</div>
 							</td>
-						</tr>
-					{% endif %}
+						</td>
+					</tr>
+				{% endif %}
 
 
-				</tbody>
-			</table>
-		</div>
+			</tbody>
+		</table>
+	</div>
 
-	{% endblock %}
+{% endblock %}

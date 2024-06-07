@@ -21,19 +21,20 @@ security:
         check_path: app_login
         enable_csrf: true
 
-     # two_factor:
-     #   auth_form_path: 2fa_login # The route name you have used in the routes.yaml
-     #   check_path: 2fa_login_check # The route name you have used in the routes.yaml
-     #   prepare_on_login: true
-     #   prepare_on_access_denied: true
-     #   success_handler: 'App\TwoFactor\TwoFactorAuthenticationSuccessHandler'
-     #   failure_handler: 'App\TwoFactor\TwoFactorAuthenticationFailureHandler'
+      two_factor:
+        auth_form_path: 2fa_login # The route name you have used in the routes.yaml
+        check_path: 2fa_login_check # The route name you have used in the routes.yaml
+        default_target_path: app_inicio
+      #   prepare_on_login: true
+      #   prepare_on_access_denied: true
+      #   success_handler: 'App\TwoFactor\TwoFactorAuthenticationSuccessHandler'
+      #   failure_handler: 'App\TwoFactor\TwoFactorAuthenticationFailureHandler'
       #  authentication_required_handler: 'App\TwoFactor\TwoFactorAuthenticationRequiredHandler'
-     #   auth_code_parameter_name: _auth_code
+      #   auth_code_parameter_name: _auth_code
 
       ## API:
       json_login:
-      #  check_path: /login
+        #  check_path: /login
         success_handler: 'App\TwoFactor\AuthenticationSuccessHandler' # This file manages 2fa.
 
       logout:

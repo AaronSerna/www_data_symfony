@@ -1,0 +1,27 @@
+{# templates/security/2fa_login.html.twig #}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Two-Factor Authentication</title>
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+</head>
+<body>
+    <h1>Two-Factor Authentication</h1>
+
+    {% if error %}
+        <div class="alert alert-danger">
+            {{ error.messageKey|trans(error.messageData, 'security') }}
+        </div>
+    {% endif %}
+
+    <form action="{{ path('2fa_login_check') }}" method="post">
+        <div>
+            <label for="auth_code">Authentication Code:</label>
+            <input type="text" id="auth_code" name="_auth_code" required autofocus>
+        </div>
+
+        <button type="submit">Verify</button>
+    </form>
+</body>
+</html>

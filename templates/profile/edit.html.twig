@@ -22,10 +22,10 @@
 			{{ include('sidebar.html.twig') }}
 
 
-			<div class="col-md-11 justify-content-center text-center formEdicion">
+			<div class="col-lg-11 col-md-10 justify-content-center text-center formEdicion">
 
 				<div class="text-start mt-1">
-					<a href="{{ path('app_profile_index') }}" class="btn btn-secondary text-light border border-dark mt-1">
+					<a href="/profile/{{user.id}}" class="btn btn-secondary text-light border border-dark mt-1">
 
 						<i class="bi bi-arrow-return-left"></i>
 						Retroceder</a>
@@ -36,7 +36,6 @@
 
 				<div>
 					{{ include('profile/_form.html.twig', {'button_label': 'Actualizar'}) }}
-					{{ include('profile/_delete_form.html.twig') }}
 				</div>
 			</div>
 
